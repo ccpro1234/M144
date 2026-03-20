@@ -405,7 +405,7 @@ button{
   <div class="headerText">
     <h2>📊 Smart Baccarat Killer</h2>
     <div>Professional Analysis System</div>
-    <div class="expire">⏳ วันหมดอายุ : 20 มีนาคม พ.ศ. 2569</div>
+    <div class="expire">⏳ วันหมดอายุ : 22 มีนาคม พ.ศ. 2569</div>
   </div>
 
 </header>
@@ -454,13 +454,12 @@ button{
 
 <script>
 /* ===== EXPIRATION (เพิ่มอย่างเดียว) ===== */
-const expireDate=new Date("2026-03-20T23:59:59");
+const expireDate=new Date("2026-03-22T23:59:59");
 if(new Date()>expireDate){
   document.body.innerHTML=
   "<h2 style='color:#ff6b6b;text-align:center;margin-top:20%'>⛔ โปรแกรมหมดอายุแล้ว</h2>";
 }
 
-/* ===== LOGIN ===== */
 async function login(){
 
   const userInput = document.getElementById("user");
@@ -476,8 +475,8 @@ async function login(){
 
     const res = await fetch(
       "https://morning-block-55bb.havanalanna.workers.dev/?user="
-      +userInput.value+
-      "&pass="+passInput.value
+      + encodeURIComponent(userInput.value)
+      + "&pass=" + encodeURIComponent(passInput.value)
     );
 
     const data = await res.json();
@@ -486,9 +485,9 @@ async function login(){
 
       loginBoxEl.style.display="none";
       appEl.style.display="block";
-      render();
+      updateUI(); // ⭐ ของคุณใช้ตัวนี้ ไม่ใช่ render()
 
-      /* 🔒 ตรวจ License ทุก 30 วินาที */
+      /* 🔒 ตรวจ License ทุก 30 วิ */
       const user = userInput.value;
       const pass = passInput.value;
 
@@ -498,8 +497,8 @@ async function login(){
 
           const r = await fetch(
             "https://morning-block-55bb.havanalanna.workers.dev/?user="
-            +user+
-            "&pass="+pass
+            + encodeURIComponent(user)
+            + "&pass=" + encodeURIComponent(pass)
           );
 
           const j = await r.json();
@@ -516,18 +515,15 @@ async function login(){
       },30000);
 
     }else{
-
       loginErrEl.textContent="User หรือ Password ไม่ถูกต้อง";
-
     }
 
   }catch(e){
-
     loginErrEl.textContent="ไม่สามารถเชื่อมต่อ License Server";
-
   }
 
 }
+  
 /* ===== LOGIC เดิม 100% ===== */
 let road=[];
 let lines=Array.from({length:6},()=>({
